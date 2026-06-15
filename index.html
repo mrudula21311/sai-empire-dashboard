@@ -1214,7 +1214,14 @@ document.getElementById('refreshBtn').addEventListener('click', () => {
 });
 
 // Initial load — fetch live data; falls back to static rawData on error
-refreshData();
+(async () => {
+    await refreshData();
+    await refreshMaintData();
+
+    if (activeView === 'maintenance') {
+        buildMaintTable();
+    }
+})();
 </script>
 </body>
 </html>
