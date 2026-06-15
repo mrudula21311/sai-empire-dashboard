@@ -471,7 +471,7 @@
         <h3>Corpus Remaining</h3>
       </div>
       <div class="chart-container"><canvas id="corpusChart"></canvas></div>
-      <div class="chart-note">Cumulative balance · Opening corpus: ₹45,246 (end of Aug 2025)</div>
+      <div class="chart-note">Cumulative balance · Opening corpus: ₹0 (end of Jun 2024)</div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header">
@@ -617,7 +617,7 @@ const isRecurringRow = r => r.category.trim() !== '' && !isIncomeRow(r);
 ================================================================ */
 const SHEET_CSV_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxNghbTcVXwcQkPt6oKZtv9nEeMObEHnWNWgz2uqTrvAC9_X6YB2dzcaWK30PfSPicglt1XT2Nl8Xi/pub?gid=0&single=true&output=csv';
 const MAINT_CSV_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxNghbTcVXwcQkPt6oKZtv9nEeMObEHnWNWgz2uqTrvAC9_X6YB2dzcaWK30PfSPicglt1XT2Nl8Xi/pub?gid=1092581211&single=true&output=csv';
-const INITIAL_CORPUS = 45246; // Opening corpus as of end of Aug 2025
+const INITIAL_CORPUS = 0; // Opening corpus as of end of Jun 2024
 let   activeFilter   = 3;
 
 /* ── Maintenance flat list (static) ── */
@@ -939,7 +939,7 @@ function buildSummary(months) {
       <div class="summary-icon">🏦</div>
       <div class="summary-label">Corpus Balance</div>
       <div class="summary-value" style="color:${corpusColor}">${fmtRupee(latestCorpus)}</div>
-      <div class="summary-sub">Opening corpus ₹45,246 (Aug 2025)</div>
+      <div class="summary-sub">Opening corpus ₹0 (Jun 2024)</div>
     </div>
   `;
 }
