@@ -105,14 +105,13 @@
     }
     
 .period-select{
-  padding:7px 14px;
-  border:1.5px solid var(--border);
-  border-radius:8px;
-  background:white;
-  color:var(--text);
-  font-size:.85rem;
-  font-weight:600;
-  min-width:150px;
+padding:7px 14px;
+border:1.5px solid var(--border);
+border-radius:8px;
+background:white;
+font-size:.85rem;
+font-weight:600;
+min-width:150px;
 }
 .controls-spacer { flex: 1; min-width: 12px; }
 
@@ -442,7 +441,13 @@
 
   <!-- ── CONTROLS ── -->
   <div class="controls">
-    <span class="controls-label">Period:</span>
+    <span class="controls-label">Quick View:</span>
+<button id="currentMonthBtn" class="filter-btn active">Current Month</button>
+<button id="last3MonthsBtn" class="filter-btn">Last 3 Months</button>
+
+<div style="width:1px;height:24px;background:#e2e8f0;margin:0 6px"></div>
+
+<span class="controls-label">Custom Range:</span>
 <select id="startMonthFilter" class="period-select"></select>
 <span style="font-size:12px;color:#64748b">to</span>
 <select id="endMonthFilter" class="period-select"></select>
@@ -685,50 +690,46 @@ function getFilteredMonths(n) {
   return allMonths.slice(-Math.min(n, allMonths.length));
 }
 
-function generateMonthRange(startMonth, startYear, endKey) {
-  const months = [];
-  let m = startMonth;
-  let y = startYear;
-
-  while ((y * 12 + m) <= parseDateKey(endKey)) {
-    months.push(String(m).padStart(2,'0') + '/' + y);
-    m++;
-    if (m > 12) { m = 1; y++; }
-  }
-  return months;
+function generateMonthRange(startMonth,startYear,endKey){
+ const months=[];
+ let m=startMonth,y=startYear;
+ while((y*12+m)<=parseDateKey(endKey)){
+   months.push(String(m).padStart(2,'0')+'/'+y);
+   m++;
+   if(m>12){m=1;y++;}
+ }
+ return months;
 }
 
-function buildRangeDropdowns() {
-  const start = document.getElementById('startMonthFilter');
-  const end = document.getElementById('endMonthFilter');
+function buildRangeDropdowns(){
+ const start=document.getElementById('startMonthFilter');
+ const end=document.getElementById('endMonthFilter');
+ const latest=allMonths[allMonths.length-1];
+ const selectable=generateMonthRange(7,2024,latest);
 
-  const latestMonth = allMonths[allMonths.length - 1];
-  const selectableMonths = generateMonthRange(7, 2024, latestMonth);
+ start.innerHTML='';
+ end.innerHTML='';
 
-  start.innerHTML = '';
-  end.innerHTML = '';
+ selectable.forEach(month=>{
+   start.innerHTML+=`<option value="${month}">${formatMonth(month)}</option>`;
+   end.innerHTML+=`<option value="${month}">${formatMonth(month)}</option>`;
+ });
 
-  selectableMonths.forEach(month => {
-    start.innerHTML += `<option value="${month}">${formatMonth(month)}</option>`;
-    end.innerHTML += `<option value="${month}">${formatMonth(month)}</option>`;
-  });
-
-  if (!start.dataset.initialized) {
-    start.value = selectableMonths[0];
-    end.value = latestMonth;
-    start.dataset.initialized = '1';
-  }
+ if(!start.dataset.init){
+   start.value=selectable[0];
+   end.value=latest;
+   start.dataset.init='1';
+ }
 }
 
-function renderRange(startMonth, endMonth) {
-  const startIdx = allMonths.indexOf(startMonth);
-  const endIdx = allMonths.indexOf(endMonth);
-  if (startIdx < 0 || endIdx < 0 || startIdx > endIdx) return;
-
-  const months = allMonths.slice(startIdx, endIdx + 1);
-  buildSummary(months);
-  buildCharts(months);
-  buildTable(months);
+function renderRange(startMonth,endMonth){
+ const startIdx=allMonths.indexOf(startMonth);
+ const endIdx=allMonths.indexOf(endMonth);
+ if(startIdx<0||endIdx<0||startIdx>endIdx)return;
+ const months=allMonths.slice(startIdx,endIdx+1);
+ buildSummary(months);
+ buildCharts(months);
+ buildTable(months);
 }
 
 
@@ -805,8 +806,7 @@ async function refreshData() {
     rawData.length = 0;
     parsed.forEach(r => rawData.push(r));
     recompute();
-    buildRangeDropdowns();
-    render();
+    render(activeFilter);
 
     const ts = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
     showToast('\u2713 Data refreshed — ' + parsed.length + ' records loaded (' + ts + ')', 'success');
@@ -1221,11 +1221,11 @@ function buildTable(months) {
 /* ================================================================
    MAIN RENDER
 ================================================================ */
-function render() {
-  renderRange(
-    document.getElementById('startMonthFilter').value,
-    document.getElementById('endMonthFilter').value
-  );
+function render(n) {
+  const months = getFilteredMonths(n);
+  buildSummary(months);
+  buildCharts(months);
+  buildTable(months);
 }
 
 /* ================================================================
@@ -1248,18 +1248,27 @@ function showMaintView() {
 
 buildRangeDropdowns();
 
-document.getElementById('startMonthFilter').addEventListener('change', () => {
-  renderRange(
-    document.getElementById('startMonthFilter').value,
-    document.getElementById('endMonthFilter').value
-  );
+document.getElementById('currentMonthBtn').addEventListener('click',()=>{
+ document.getElementById('currentMonthBtn').classList.add('active');
+ document.getElementById('last3MonthsBtn').classList.remove('active');
+ renderRange(allMonths[allMonths.length-1],allMonths[allMonths.length-1]);
 });
 
-document.getElementById('endMonthFilter').addEventListener('change', () => {
-  renderRange(
-    document.getElementById('startMonthFilter').value,
-    document.getElementById('endMonthFilter').value
-  );
+document.getElementById('last3MonthsBtn').addEventListener('click',()=>{
+ document.getElementById('last3MonthsBtn').classList.add('active');
+ document.getElementById('currentMonthBtn').classList.remove('active');
+ const start=Math.max(0,allMonths.length-3);
+ renderRange(allMonths[start],allMonths[allMonths.length-1]);
+});
+
+document.getElementById('startMonthFilter').addEventListener('change',()=>{
+ document.querySelectorAll('#currentMonthBtn,#last3MonthsBtn').forEach(b=>b.classList.remove('active'));
+ renderRange(startMonthFilter.value,endMonthFilter.value);
+});
+
+document.getElementById('endMonthFilter').addEventListener('change',()=>{
+ document.querySelectorAll('#currentMonthBtn,#last3MonthsBtn').forEach(b=>b.classList.remove('active'));
+ renderRange(startMonthFilter.value,endMonthFilter.value);
 });
 
 // Maintenance tab
@@ -1280,6 +1289,8 @@ document.getElementById('refreshBtn').addEventListener('click', () => {
 // Initial load — fetch live data; falls back to static rawData on error
 (async () => {
     await refreshData();
+    buildRangeDropdowns();
+    document.getElementById('currentMonthBtn').click();
     await refreshMaintData();
 
     if (activeView === 'maintenance') {
