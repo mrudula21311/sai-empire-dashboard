@@ -679,6 +679,8 @@ let maintMonths   = ['June 2026','July 2026','August 2026','September 2026','Oct
 let maintPayments = {};  // { flatNo: { 'June 2026': value, ... } }
 maintFlats.forEach(f => { maintPayments[f.flat] = {}; });
 let activeView    = 'expenses';
+let currentStartMonth=null;
+let currentEndMonth=null;
 
 /* ================================================================
    PRECOMPUTE ALL-TIME MONTH STATS (corpus is always running total from start)
@@ -737,6 +739,8 @@ function buildRangeDropdowns(){
 }
 
 function renderRange(startMonth,endMonth){
+ currentStartMonth=startMonth;
+ currentEndMonth=endMonth;
  const startIdx=allMonths.indexOf(startMonth);
  const endIdx=allMonths.indexOf(endMonth);
  if(startIdx<0||endIdx<0||startIdx>endIdx)return;
@@ -822,7 +826,11 @@ async function refreshData() {
     parsed.forEach(r => rawData.push(r));
     recompute();
     buildRangeDropdowns();
-    document.getElementById('currentMonthBtn').click();
+    if(currentStartMonth && currentEndMonth){
+      renderRange(currentStartMonth,currentEndMonth);
+    } else {
+      document.getElementById('currentMonthBtn').click();
+    }
 
     const ts = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
     showToast('\u2713 Data refreshed — ' + parsed.length + ' records loaded (' + ts + ')', 'success');
@@ -1241,15 +1249,20 @@ function buildTable(months) {
 
 function getTopExpenses(months){
   const map = {};
-  rawData.filter(r => months.includes(r.date) && !isIncomeRow(r))
-    .forEach(r=>{
-      const key = r.title.replace(/\s*\(2nd entry\)/i,'');
+
+  rawData
+    .filter(r => months.includes(r.date) && !isIncomeRow(r))
+    .forEach(r => {
+      const key = (r.category || '').trim() !== ''
+        ? r.category.trim()
+        : r.title.replace(/\s*\(2nd entry\)/i,'');
+
       map[key] = (map[key] || 0) + r.amount;
     });
 
   return Object.entries(map)
-    .map(([name,amount])=>({name,amount}))
-    .sort((a,b)=>b.amount-a.amount)
+    .map(([name,amount]) => ({name,amount}))
+    .sort((a,b) => b.amount - a.amount)
     .slice(0,10);
 }
 
