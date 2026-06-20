@@ -496,13 +496,7 @@ min-width:150px;
       </div>
       <div class="chart-container"><canvas id="expenseChart"></canvas></div>
     </div>
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <span>💰</span>
-        <h3>Top 10 Expenses</h3>
-      </div>
-      <div class="chart-container"><canvas id="topExpenseChart"></canvas></div>
-    </div>
+    
   </div>
 
   <!-- ── PIVOT TABLE ── -->
@@ -528,7 +522,7 @@ min-width:150px;
   </div>
 
   
-<div class="pivot-wrapper">
+<div class="pivot-wrapper" id="topExpenseSection">
   <div class="pivot-header">
     <h2>💰 Top 10 Expenses (Selected Period)</h2>
   </div>
@@ -827,7 +821,8 @@ async function refreshData() {
     rawData.length = 0;
     parsed.forEach(r => rawData.push(r));
     recompute();
-    render(activeFilter);
+    buildRangeDropdowns();
+    document.getElementById('currentMonthBtn').click();
 
     const ts = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
     showToast('\u2713 Data refreshed — ' + parsed.length + ' records loaded (' + ts + ')', 'success');
@@ -988,34 +983,6 @@ function buildCharts(months) {
 
 
 
-const topExpenses = getTopExpenses(months);
-const topCanvas = document.getElementById('topExpenseChart');
-if(topCanvas){
-  charts.topExpense = new Chart(topCanvas, {
-    type:'bar',
-    data:{
-      labels: topExpenses.map(x=>x.name),
-      datasets:[{
-        data: topExpenses.map(x=>x.amount),
-        borderWidth:1,
-        borderRadius:6
-      }]
-    },
-    options:{
-      indexAxis:'y',
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          callbacks:{
-            label:(ctx)=> ' ' + fmtRupee(ctx.raw)
-          }
-        }
-      }
-    }
-  });
-}
 
 /* ================================================================
    SUMMARY CARDS
@@ -1305,19 +1272,24 @@ function render(n) {
   buildSummary(months);
   buildCharts(months);
   buildTable(months);
+  buildTopExpenseTable(months);
 }
 
 /* ================================================================
    FILTER BUTTONS
 ================================================================ */
 /* helpers to show/hide views */
-function showExpenseView() {
+function showExpenseView(){
+  const topExpenseSection=document.getElementById('topExpenseSection');
+  if(topExpenseSection) topExpenseSection.style.display='block';
   document.getElementById('summaryGrid').style.display   = '';
   document.querySelector('.charts-grid').style.display   = '';
   document.querySelector('.pivot-wrapper').style.display = '';
   document.getElementById('maintSection').style.display  = 'none';
 }
-function showMaintView() {
+function showMaintView(){
+  const topExpenseSection=document.getElementById('topExpenseSection');
+  if(topExpenseSection) topExpenseSection.style.display='none';
   document.getElementById('summaryGrid').style.display   = 'none';
   document.querySelector('.charts-grid').style.display   = 'none';
   document.querySelector('.pivot-wrapper').style.display = 'none';
