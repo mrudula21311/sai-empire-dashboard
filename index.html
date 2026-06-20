@@ -496,6 +496,13 @@ min-width:150px;
       </div>
       <div class="chart-container"><canvas id="expenseChart"></canvas></div>
     </div>
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <span>💰</span>
+        <h3>Top 10 Expenses</h3>
+      </div>
+      <div class="chart-container"><canvas id="topExpenseChart"></canvas></div>
+    </div>
   </div>
 
   <!-- ── PIVOT TABLE ── -->
@@ -520,7 +527,20 @@ min-width:150px;
     </div>
   </div>
 
-  <!-- ── MAINTENANCE UPDATE ── -->
+  
+<div class="pivot-wrapper">
+  <div class="pivot-header">
+    <h2>💰 Top 10 Expenses (Selected Period)</h2>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Rank</th><th>Expense Item</th><th>Total Amount</th></tr></thead>
+      <tbody id="topExpenseBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── MAINTENANCE UPDATE ── -->
   <div id="maintSection" style="display:none">
     <div class="maint-stats" id="maintStats"></div>
     <div class="pivot-wrapper" style="margin-bottom:30px">
@@ -730,6 +750,7 @@ function renderRange(startMonth,endMonth){
  buildSummary(months);
  buildCharts(months);
  buildTable(months);
+  buildTopExpenseTable(months);
 }
 
 
@@ -961,6 +982,37 @@ function buildCharts(months) {
         tooltip: tooltipCb,
       },
       scales: baseScales,
+    }
+  });
+}
+
+
+
+const topExpenses = getTopExpenses(months);
+const topCanvas = document.getElementById('topExpenseChart');
+if(topCanvas){
+  charts.topExpense = new Chart(topCanvas, {
+    type:'bar',
+    data:{
+      labels: topExpenses.map(x=>x.name),
+      datasets:[{
+        data: topExpenses.map(x=>x.amount),
+        borderWidth:1,
+        borderRadius:6
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label:(ctx)=> ' ' + fmtRupee(ctx.raw)
+          }
+        }
+      }
     }
   });
 }
@@ -1217,6 +1269,33 @@ function buildTable(months) {
   document.getElementById('pivotSubtitle').textContent =
     months.length > 1 ? `${first} – ${last} (${months.length} months)` : first;
 }
+
+
+
+function getTopExpenses(months){
+  const map = {};
+  rawData.filter(r => months.includes(r.date) && !isIncomeRow(r))
+    .forEach(r=>{
+      const key = r.title.replace(/\s*\(2nd entry\)/i,'');
+      map[key] = (map[key] || 0) + r.amount;
+    });
+
+  return Object.entries(map)
+    .map(([name,amount])=>({name,amount}))
+    .sort((a,b)=>b.amount-a.amount)
+    .slice(0,10);
+}
+
+function buildTopExpenseTable(months){
+  const top = getTopExpenses(months);
+  const body = document.getElementById('topExpenseBody');
+  if(!body) return;
+
+  body.innerHTML = top.map((r,i)=>
+    `<tr><td>${i+1}</td><td>${r.name}</td><td class="amt-cell">${fmtRupee(r.amount)}</td></tr>`
+  ).join('');
+}
+
 
 /* ================================================================
    MAIN RENDER
