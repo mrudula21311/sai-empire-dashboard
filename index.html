@@ -499,8 +499,20 @@ min-width:150px;
     
   </div>
 
+  <div class="pivot-wrapper" id="topExpenseSection">
+  <div class="pivot-header">
+    <h2>💰 Top 10 Expenses (Selected Period)</h2>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Rank</th><th>Expense Item</th><th>Total Amount</th></tr></thead>
+      <tbody id="topExpenseBody"></tbody>
+    </table>
+  </div>
+</div>
+
   <!-- ── PIVOT TABLE ── -->
-  <div class="pivot-wrapper">
+  <div class="pivot-wrapper" id="expensePivotSection">
     <div class="pivot-header">
       <h2>📋 Monthly Expense Details (Pivot View)</h2>
       <span id="pivotSubtitle"></span>
@@ -522,17 +534,7 @@ min-width:150px;
   </div>
 
   
-<div class="pivot-wrapper" id="topExpenseSection">
-  <div class="pivot-header">
-    <h2>💰 Top 10 Expenses (Selected Period)</h2>
-  </div>
-  <div class="table-scroll">
-    <table>
-      <thead><tr><th>Rank</th><th>Expense Item</th><th>Total Amount</th></tr></thead>
-      <tbody id="topExpenseBody"></tbody>
-    </table>
-  </div>
-</div>
+
 
 <!-- ── MAINTENANCE UPDATE ── -->
   <div id="maintSection" style="display:none">
@@ -1293,6 +1295,8 @@ function render(n) {
 ================================================================ */
 /* helpers to show/hide views */
 function showExpenseView(){
+  const expensePivotSection=document.getElementById('expensePivotSection');
+  if(expensePivotSection) expensePivotSection.style.display='block';
   const topExpenseSection=document.getElementById('topExpenseSection');
   if(topExpenseSection) topExpenseSection.style.display='block';
   document.getElementById('summaryGrid').style.display   = '';
@@ -1301,6 +1305,8 @@ function showExpenseView(){
   document.getElementById('maintSection').style.display  = 'none';
 }
 function showMaintView(){
+  const expensePivotSection=document.getElementById('expensePivotSection');
+  if(expensePivotSection) expensePivotSection.style.display='none';
   const topExpenseSection=document.getElementById('topExpenseSection');
   if(topExpenseSection) topExpenseSection.style.display='none';
   document.getElementById('summaryGrid').style.display   = 'none';
