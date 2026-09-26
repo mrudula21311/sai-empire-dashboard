@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sai Empire Block 1 — Expense Dashboard</title>
+  <title>Sai Empire Block 1 — Community Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
@@ -366,6 +366,12 @@ min-width:150px;
       .summary-grid { grid-template-columns: 1fr; }
     }
 
+
+    /* MAIN DASHBOARD TABS */
+    .main-tabs{max-width:1400px;margin:18px auto 0;padding:0 24px;display:flex;gap:8px;flex-wrap:wrap}.main-tab{border:1px solid var(--border);background:#fff;color:var(--muted);border-radius:10px 10px 0 0;padding:11px 20px;font-size:.86rem;font-weight:750;cursor:pointer;transition:.15s ease}.main-tab:hover{color:var(--secondary);border-color:#93c5fd}.main-tab.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 3px 10px rgba(30,58,95,.2)}.main-tab.association.active{background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:#7c3aed}
+    /* APARTMENT ASSOCIATION */
+    #associationSection{display:none;width:100%}.assoc-shell{max-width:1400px;margin:0 auto;padding:0 0 30px}.assoc-hero{background:linear-gradient(135deg,#fff,#f3edff);border:1px solid #e5defa;border-radius:20px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:0 10px 28px rgba(76,29,149,.08);margin-bottom:18px}.assoc-hero h2{margin:0 0 6px;color:#312e81;font-size:1.7rem}.assoc-hero p{margin:0;color:#64748b;font-size:.9rem}.assoc-badge{background:#fff;border:1px solid #ddd6fe;border-radius:13px;padding:10px 15px;color:#6d28d9;font-weight:800;white-space:nowrap}.assoc-flow{position:relative;height:1120px;width:100%;overflow:visible;background:linear-gradient(180deg,#fbfdff,#f7f9fc);border:1px solid #e2e8f0;border-radius:22px}.assoc-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:690px;height:690px;border:3px dashed #cbd5e1;border-radius:50%}.assoc-ring:after{content:"";position:absolute;inset:44px;border:1px solid #e5e7eb;border-radius:50%}.assoc-center{position:absolute;z-index:10;left:50%;top:50%;transform:translate(-50%,-50%);width:270px;height:270px;border-radius:50%;background:#fff;border:10px solid #ede9fe;box-shadow:0 18px 52px rgba(76,29,149,.15);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px}.assoc-center .building{font-size:48px}.assoc-center h3{margin:8px 0 5px;color:#312e81;font-size:1.35rem}.assoc-center p{margin:0;color:#64748b;line-height:1.45;font-size:.75rem}.assoc-card{position:absolute;width:335px;min-height:315px;background:#fff;border:1px solid #dbe4ee;border-top:5px solid var(--accent);border-radius:20px;padding:17px;box-shadow:0 12px 32px rgba(15,23,42,.09);z-index:5;transition:.2s ease}.assoc-card:hover{transform:translateY(-5px);box-shadow:0 20px 45px rgba(15,23,42,.14)}.assoc-top{display:flex;justify-content:space-between;align-items:center}.assoc-num{width:33px;height:33px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:900}.assoc-icon{width:47px;height:47px;border-radius:14px;background:var(--tint);display:grid;place-items:center;font-size:24px}.assoc-card h3{margin:10px 0 5px;color:#1e293b;font-size:1rem;line-height:1.2}.assoc-short{margin:0 0 8px;color:#64748b;font-size:.72rem}.assoc-member{background:#f8fafc;border-radius:8px;padding:6px 8px;font-size:.68rem;font-weight:750;color:#526174;margin-top:4px}.assoc-duties{margin-top:10px;background:var(--tint);border-radius:13px;padding:10px 12px}.assoc-duties-title{color:var(--accent);font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;font-weight:900;margin-bottom:4px}.assoc-duties ul{margin:0;padding-left:16px}.assoc-duties li{font-size:.68rem;line-height:1.3;margin:4px 0}.assoc-p1{--accent:#df5c43;--tint:#fff0eb;left:50%;top:18px;transform:translateX(-50%)}.assoc-p2{--accent:#c89618;--tint:#fff8dc;right:2%;top:175px}.assoc-p3{--accent:#23915b;--tint:#e8f8ef;right:2%;bottom:120px}.assoc-p4{--accent:#247cc5;--tint:#eaf5ff;left:50%;bottom:18px;transform:translateX(-50%)}.assoc-p5{--accent:#704bc1;--tint:#f1edff;left:2%;bottom:120px}.assoc-p6{--accent:#a43f8e;--tint:#fdebf6;left:2%;top:175px}
+    @media(max-width:1200px){.assoc-flow{height:auto;padding:18px;display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:18px}.assoc-ring,.assoc-center{display:none}.assoc-card,.assoc-p1,.assoc-p2,.assoc-p3,.assoc-p4,.assoc-p5,.assoc-p6{position:static;width:auto;min-height:0;transform:none!important}}@media(max-width:700px){.main-tabs{padding:0 14px}.main-tab{flex:1;min-width:0;padding:10px 8px;font-size:.76rem}.assoc-hero{flex-direction:column;align-items:flex-start}.assoc-flow{grid-template-columns:1fr}}
     /* ── TAB DIVIDER ── */
     .tab-divider {
       width: 1px; height: 26px;
@@ -431,11 +437,13 @@ min-width:150px;
   <div class="header-inner">
     <div class="header-title">
       <h1>🏢 Sai Empire Block 1</h1>
-      <p>Monthly Expense Tracker &amp; Analysis Dashboard</p>
+      <p>Community Management &amp; Analysis Dashboard</p>
     </div>
     <div class="header-badge">📊 Data sourced from Google Sheets</div>
   </div>
 </div>
+
+<nav class="main-tabs" aria-label="Dashboard sections"><button id="expensesTab" class="main-tab active">💰 Expenses &amp; Finance</button><button id="maintenanceTab" class="main-tab">🏠 Maintenance</button><button id="associationTab" class="main-tab association">🤝 Apartment Association</button></nav>
 
 <div class="container">
 
@@ -451,8 +459,6 @@ min-width:150px;
 <select id="startMonthFilter" class="period-select"></select>
 <span style="font-size:12px;color:#64748b">to</span>
 <select id="endMonthFilter" class="period-select"></select>
-    <div class="tab-divider"></div>
-    <button class="filter-btn tab-btn" id="maintTab">🏠 Maintenance</button>
     <div class="controls-spacer"></div>
     <div class="legend">
       <div class="legend-item">
@@ -496,23 +502,10 @@ min-width:150px;
       </div>
       <div class="chart-container"><canvas id="expenseChart"></canvas></div>
     </div>
-    
   </div>
-
-  <div class="pivot-wrapper" id="topExpenseSection">
-  <div class="pivot-header">
-    <h2>💰 Top 10 Expenses (Selected Period)</h2>
-  </div>
-  <div class="table-scroll">
-    <table>
-      <thead><tr><th>Rank</th><th>Expense Item</th><th>Total Amount</th></tr></thead>
-      <tbody id="topExpenseBody"></tbody>
-    </table>
-  </div>
-</div>
 
   <!-- ── PIVOT TABLE ── -->
-  <div class="pivot-wrapper" id="expensePivotSection">
+  <div class="pivot-wrapper">
     <div class="pivot-header">
       <h2>📋 Monthly Expense Details (Pivot View)</h2>
       <span id="pivotSubtitle"></span>
@@ -533,10 +526,7 @@ min-width:150px;
     </div>
   </div>
 
-  
-
-
-<!-- ── MAINTENANCE UPDATE ── -->
+  <!-- ── MAINTENANCE UPDATE ── -->
   <div id="maintSection" style="display:none">
     <div class="maint-stats" id="maintStats"></div>
     <div class="pivot-wrapper" style="margin-bottom:30px">
@@ -553,6 +543,15 @@ min-width:150px;
     </div>
   </div>
 
+
+  <section id="associationSection"><div class="assoc-shell"><div class="assoc-hero"><div><h2>🤝 Apartment Association</h2><p>Six equally responsible teams working together for one community.</p></div><div class="assoc-badge">6 Teams · 1 Community</div></div><div class="assoc-flow"><div class="assoc-ring"></div><div class="assoc-center"><div class="building">🏢</div><h3>SAI EMPIRE I COMMUNITY</h3><p>All teams are equally responsible and work together. The center represents the community they collectively serve.</p></div>
+<article class="assoc-card assoc-p1" style="--accent:#df5c43;--tint:#fff0eb"><div class="assoc-top"><div class="assoc-num">1</div><div class="assoc-icon">👑</div></div><h3>President</h3><p class="assoc-short">Overall association leadership &amp; coordination</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Communicate announcements and conduct monthly association meetings</li><li>Guide, coordinate and approve work across teams</li><li>Set the final priority list and task order</li><li>Conflict resolution and final say</li><li>Coordinate between all teams</li></ul></div></article>
+<article class="assoc-card assoc-p2" style="--accent:#c89618;--tint:#fff8dc"><div class="assoc-top"><div class="assoc-num">2</div><div class="assoc-icon">🤝</div></div><h3>Vice President</h3><p class="assoc-short">Supports association coordination</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Supports the President in association tasks and meetings</li><li>Assist with communication and execution of association decisions</li><li>Coordinate with teams when required</li><li>Step in for decission making duties when required</li></ul></div></article>
+<article class="assoc-card assoc-p3" style="--accent:#23915b;--tint:#e8f8ef"><div class="assoc-top"><div class="assoc-num">3</div><div class="assoc-icon">💰</div></div><h3>Treasurer</h3><p class="assoc-short">Money, records &amp; approved expenses</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Maintains hard-copy and soft-copy records of money inflows and outflows</li><li>Release amounts for approved expenses based on the priority list</li><li>Update residents on all money-related issues</li></ul></div></article>
+<article class="assoc-card assoc-p4" style="--accent:#247cc5;--tint:#eaf5ff"><div class="assoc-top"><div class="assoc-num">4</div><div class="assoc-icon">💧</div></div><h3>Water</h3><p class="assoc-short">Water supply &amp; water systems</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Overhead water tank maintenance</li><li>Water softener maintenance and salt upkeep</li><li>Motor and common-area water connections oversight</li><li>Handle all water-related equipment purchases for issues</li></ul></div></article>
+<article class="assoc-card assoc-p5" style="--accent:#704bc1;--tint:#f1edff"><div class="assoc-top"><div class="assoc-num">5</div><div class="assoc-icon">⚡</div></div><h3>Power</h3><p class="assoc-short">Lift, generator, lights &amp; CCTV</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Lift functioning and related monthly maintainance oversight</li><li>Generator functioning and and diesel upkeep</li><li>Common-area lights</li><li>CCTV functioning and oversight</li></ul></div></article>
+<article class="assoc-card assoc-p6" style="--accent:#a43f8e;--tint:#fdebf6"><div class="assoc-top"><div class="assoc-num">6</div><div class="assoc-icon">🏠🌿</div></div><h3>Internal &amp; External Event Conduction and Coordination</h3><p class="assoc-short">Building interior, exterior &amp; surroundings · 2 members</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-member">👤 Member 2 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Monitor cleanliness of terrace, stairs, lift, parking and driveway</li><li>Handle garbage-related issues and related equipment purchases/replacements</li><li>Oversee tasks inside the building, including watchman's work</li><li>Building elevation oversight</li><li>Bird-net oversight</li><li>Weed cutting and maintenance around the building</li></ul></div></article>
+</div></div></section>
 </div>
 
 <div id="toast"></div>
@@ -681,8 +680,6 @@ let maintMonths   = ['June 2026','July 2026','August 2026','September 2026','Oct
 let maintPayments = {};  // { flatNo: { 'June 2026': value, ... } }
 maintFlats.forEach(f => { maintPayments[f.flat] = {}; });
 let activeView    = 'expenses';
-let currentStartMonth=null;
-let currentEndMonth=null;
 
 /* ================================================================
    PRECOMPUTE ALL-TIME MONTH STATS (corpus is always running total from start)
@@ -741,8 +738,6 @@ function buildRangeDropdowns(){
 }
 
 function renderRange(startMonth,endMonth){
- currentStartMonth=startMonth;
- currentEndMonth=endMonth;
  const startIdx=allMonths.indexOf(startMonth);
  const endIdx=allMonths.indexOf(endMonth);
  if(startIdx<0||endIdx<0||startIdx>endIdx)return;
@@ -750,7 +745,6 @@ function renderRange(startMonth,endMonth){
  buildSummary(months);
  buildCharts(months);
  buildTable(months);
-  buildTopExpenseTable(months);
 }
 
 
@@ -827,12 +821,7 @@ async function refreshData() {
     rawData.length = 0;
     parsed.forEach(r => rawData.push(r));
     recompute();
-    buildRangeDropdowns();
-    if(currentStartMonth && currentEndMonth){
-      renderRange(currentStartMonth,currentEndMonth);
-    } else {
-      document.getElementById('currentMonthBtn').click();
-    }
+    render(activeFilter);
 
     const ts = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
     showToast('\u2713 Data refreshed — ' + parsed.length + ' records loaded (' + ts + ')', 'success');
@@ -990,9 +979,6 @@ function buildCharts(months) {
     }
   });
 }
-
-
-
 
 /* ================================================================
    SUMMARY CARDS
@@ -1247,38 +1233,6 @@ function buildTable(months) {
     months.length > 1 ? `${first} – ${last} (${months.length} months)` : first;
 }
 
-
-
-function getTopExpenses(months){
-  const map = {};
-
-  rawData
-    .filter(r => months.includes(r.date) && !isIncomeRow(r))
-    .forEach(r => {
-      const key = (r.category || '').trim() !== ''
-        ? r.category.trim()
-        : r.title.replace(/\s*\(2nd entry\)/i,'');
-
-      map[key] = (map[key] || 0) + r.amount;
-    });
-
-  return Object.entries(map)
-    .map(([name,amount]) => ({name,amount}))
-    .sort((a,b) => b.amount - a.amount)
-    .slice(0,10);
-}
-
-function buildTopExpenseTable(months){
-  const top = getTopExpenses(months);
-  const body = document.getElementById('topExpenseBody');
-  if(!body) return;
-
-  body.innerHTML = top.map((r,i)=>
-    `<tr><td>${i+1}</td><td>${r.name}</td><td class="amt-cell">${fmtRupee(r.amount)}</td></tr>`
-  ).join('');
-}
-
-
 /* ================================================================
    MAIN RENDER
 ================================================================ */
@@ -1287,28 +1241,19 @@ function render(n) {
   buildSummary(months);
   buildCharts(months);
   buildTable(months);
-  buildTopExpenseTable(months);
 }
 
 /* ================================================================
    FILTER BUTTONS
 ================================================================ */
 /* helpers to show/hide views */
-function showExpenseView(){
-  const expensePivotSection=document.getElementById('expensePivotSection');
-  if(expensePivotSection) expensePivotSection.style.display='block';
-  const topExpenseSection=document.getElementById('topExpenseSection');
-  if(topExpenseSection) topExpenseSection.style.display='block';
+function showExpenseView() {
   document.getElementById('summaryGrid').style.display   = '';
   document.querySelector('.charts-grid').style.display   = '';
   document.querySelector('.pivot-wrapper').style.display = '';
   document.getElementById('maintSection').style.display  = 'none';
 }
-function showMaintView(){
-  const expensePivotSection=document.getElementById('expensePivotSection');
-  if(expensePivotSection) expensePivotSection.style.display='none';
-  const topExpenseSection=document.getElementById('topExpenseSection');
-  if(topExpenseSection) topExpenseSection.style.display='none';
+function showMaintView() {
   document.getElementById('summaryGrid').style.display   = 'none';
   document.querySelector('.charts-grid').style.display   = 'none';
   document.querySelector('.pivot-wrapper').style.display = 'none';
@@ -1316,11 +1261,18 @@ function showMaintView(){
 }
 
 
+function showAssociationView(){document.getElementById('summaryGrid').style.display='none';document.querySelector('.charts-grid').style.display='none';document.querySelector('.pivot-wrapper').style.display='none';document.getElementById('maintSection').style.display='none';document.querySelector('.controls').style.display='none';document.getElementById('associationSection').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
+function showFinancialControls(){document.querySelector('.controls').style.display='';document.getElementById('associationSection').style.display='none';}
+function setMainTab(id){document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');}
+document.getElementById('expensesTab').addEventListener('click',()=>{activeView='expenses';showFinancialControls();showExpenseView();setMainTab('expensesTab');document.getElementById('currentMonthBtn').click();});
+document.getElementById('maintenanceTab').addEventListener('click',()=>{activeView='maintenance';showFinancialControls();showMaintView();setMainTab('maintenanceTab');buildMaintTable();});
+document.getElementById('associationTab').addEventListener('click',()=>{activeView='association';setMainTab('associationTab');showAssociationView();});
 buildRangeDropdowns();
 
 document.getElementById('currentMonthBtn').addEventListener('click',()=>{
  activeView='expenses';
- document.getElementById('maintTab').classList.remove('active');
+ document.getElementById('maintenanceTab').classList.remove('active');
+  setMainTab('expensesTab');
  showExpenseView();
  document.getElementById('currentMonthBtn').classList.add('active');
  document.getElementById('last3MonthsBtn').classList.remove('active');
@@ -1329,7 +1281,8 @@ document.getElementById('currentMonthBtn').addEventListener('click',()=>{
 
 document.getElementById('last3MonthsBtn').addEventListener('click',()=>{
  activeView='expenses';
- document.getElementById('maintTab').classList.remove('active');
+ document.getElementById('maintenanceTab').classList.remove('active');
+  setMainTab('expensesTab');
  showExpenseView();
  document.getElementById('last3MonthsBtn').classList.add('active');
  document.getElementById('currentMonthBtn').classList.remove('active');
@@ -1339,7 +1292,8 @@ document.getElementById('last3MonthsBtn').addEventListener('click',()=>{
 
 document.getElementById('startMonthFilter').addEventListener('change',()=>{
  activeView='expenses';
- document.getElementById('maintTab').classList.remove('active');
+ document.getElementById('maintenanceTab').classList.remove('active');
+  setMainTab('expensesTab');
  showExpenseView();
  document.querySelectorAll('#currentMonthBtn,#last3MonthsBtn').forEach(b=>b.classList.remove('active'));
  renderRange(startMonthFilter.value,endMonthFilter.value);
@@ -1347,20 +1301,14 @@ document.getElementById('startMonthFilter').addEventListener('change',()=>{
 
 document.getElementById('endMonthFilter').addEventListener('change',()=>{
  activeView='expenses';
- document.getElementById('maintTab').classList.remove('active');
+ document.getElementById('maintenanceTab').classList.remove('active');
+  setMainTab('expensesTab');
  showExpenseView();
  document.querySelectorAll('#currentMonthBtn,#last3MonthsBtn').forEach(b=>b.classList.remove('active'));
  renderRange(startMonthFilter.value,endMonthFilter.value);
 });
 
-// Maintenance tab
-document.getElementById('maintTab').addEventListener('click', () => {
-  activeView = 'maintenance';
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('maintTab').classList.add('active');
-  showMaintView();
-  buildMaintTable();
-});
+
 
 // Refresh button — delegates to the active view's refresh handler
 document.getElementById('refreshBtn').addEventListener('click', () => {
