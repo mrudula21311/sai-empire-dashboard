@@ -357,6 +357,23 @@ min-width:150px;
     #toast.show.error   { background: #dc2626; }
     #toast.show.info    { background: #2563eb; }
 
+
+    /* ── TOP 10 EXPENSES ── */
+    .top10-wrapper {
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    .top10-table td, .top10-table th { padding: 10px 15px; }
+    .top10-rank { width: 55px; color: var(--muted); font-weight: 800; text-align:center; }
+    .top10-amount { text-align:right; font-family:'Cascadia Code','Courier New',monospace; font-weight:800; color:#b91c1c; white-space:nowrap; }
+    .top10-bar-cell { width: 28%; }
+    .top10-bar-wrap { height: 8px; background:#f1f5f9; border-radius:99px; overflow:hidden; }
+    .top10-bar { height:100%; background:linear-gradient(90deg,#dc2626,#f87171); border-radius:99px; }
+    .top10-empty { padding:24px 15px !important; text-align:center; color:var(--muted); }
+
     @media (max-width: 600px) {
       .header-inner { padding: 20px 16px; }
       .container { padding: 14px; }
@@ -504,6 +521,30 @@ min-width:150px;
     </div>
   </div>
 
+  <!-- ── TOP 10 EXPENSES ── -->
+  <div class="top10-wrapper" id="top10Expenses">
+    <div class="pivot-header">
+      <h2>🏆 Top 10 Expenses</h2>
+      <span id="top10Subtitle"></span>
+    </div>
+    <div class="table-scroll">
+      <table class="top10-table">
+        <thead>
+          <tr>
+            <th class="top10-rank">#</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th class="amt-col">Amount</th>
+            <th class="top10-bar-cell">Share of Expenses</th>
+          </tr>
+        </thead>
+        <tbody id="top10Body"></tbody>
+      </table>
+    </div>
+  </div>
+
+
+
   <!-- ── PIVOT TABLE ── -->
   <div class="pivot-wrapper">
     <div class="pivot-header">
@@ -526,6 +567,7 @@ min-width:150px;
     </div>
   </div>
 
+
   <!-- ── MAINTENANCE UPDATE ── -->
   <div id="maintSection" style="display:none">
     <div class="maint-stats" id="maintStats"></div>
@@ -546,7 +588,7 @@ min-width:150px;
 
   <section id="associationSection"><div class="assoc-shell"><div class="assoc-hero"><div><h2>🤝 Apartment Association</h2><p>Six equally responsible teams working together for one community.</p></div><div class="assoc-badge">6 Teams · 1 Community</div></div><div class="assoc-flow"><div class="assoc-ring"></div><div class="assoc-center"><div class="building">🏢</div><h3>SAI EMPIRE I COMMUNITY</h3><p>All teams are equally responsible and work together. The center represents the community they collectively serve.</p></div>
 <article class="assoc-card assoc-p1" style="--accent:#df5c43;--tint:#fff0eb"><div class="assoc-top"><div class="assoc-num">1</div><div class="assoc-icon">👑</div></div><h3>President</h3><p class="assoc-short">Overall association leadership &amp; coordination</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Communicate announcements and conduct monthly association meetings</li><li>Guide, coordinate and approve work across teams</li><li>Set the final priority list and task order</li><li>Conflict resolution and final say</li><li>Coordinate between all teams</li></ul></div></article>
-<article class="assoc-card assoc-p2" style="--accent:#c89618;--tint:#fff8dc"><div class="assoc-top"><div class="assoc-num">2</div><div class="assoc-icon">🤝</div></div><h3>Vice President</h3><p class="assoc-short">Supports association coordination</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Supports the President in association tasks and meetings</li><li>Assist with communication and execution of association decisions</li><li>Coordinate with teams when required</li><li>Step in for decission making duties when required</li></ul></div></article>
+<article class="assoc-card assoc-p2" style="--accent:#c89618;--tint:#fff8dc"><div class="assoc-top"><div class="assoc-num">2</div><div class="assoc-icon">🤝</div></div><h3>Vice President</h3><p class="assoc-short">Supports association coordination</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Supports the President in association tasks and meetings</li><li>Assist with communication and execution of association decisions</li><li>Coordinate with teams when required</li><li>Step in for decision making duties when required</li></ul></div></article>
 <article class="assoc-card assoc-p3" style="--accent:#23915b;--tint:#e8f8ef"><div class="assoc-top"><div class="assoc-num">3</div><div class="assoc-icon">💰</div></div><h3>Treasurer</h3><p class="assoc-short">Money, records &amp; approved expenses</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Maintains hard-copy and soft-copy records of money inflows and outflows</li><li>Release amounts for approved expenses based on the priority list</li><li>Update residents on all money-related issues</li></ul></div></article>
 <article class="assoc-card assoc-p4" style="--accent:#247cc5;--tint:#eaf5ff"><div class="assoc-top"><div class="assoc-num">4</div><div class="assoc-icon">💧</div></div><h3>Water</h3><p class="assoc-short">Water supply &amp; water systems</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Overhead water tank maintenance</li><li>Water softener maintenance and salt upkeep</li><li>Motor and common-area water connections oversight</li><li>Handle all water-related equipment purchases for issues</li></ul></div></article>
 <article class="assoc-card assoc-p5" style="--accent:#704bc1;--tint:#f1edff"><div class="assoc-top"><div class="assoc-num">5</div><div class="assoc-icon">⚡</div></div><h3>Power</h3><p class="assoc-short">Lift, generator, lights &amp; CCTV</p><div class="assoc-member">👤 Member 1 — Not Assigned</div><div class="assoc-duties"><div class="assoc-duties-title">Duties &amp; Responsibilities</div><ul><li>Lift functioning and related monthly maintainance oversight</li><li>Generator functioning and and diesel upkeep</li><li>Common-area lights</li><li>CCTV functioning and oversight</li></ul></div></article>
@@ -744,6 +786,7 @@ function renderRange(startMonth,endMonth){
  const months=allMonths.slice(startIdx,endIdx+1);
  buildSummary(months);
  buildCharts(months);
+ buildTop10Expenses(months);
  buildTable(months);
 }
 
@@ -1233,6 +1276,49 @@ function buildTable(months) {
     months.length > 1 ? `${first} – ${last} (${months.length} months)` : first;
 }
 
+
+function buildTop10Expenses(months) {
+  const startIdx = allMonths.indexOf(months[0]);
+  const endIdx = allMonths.indexOf(months[months.length - 1]);
+  const filteredRows = rawData.filter(r => {
+    const idx = allMonths.indexOf(r.date);
+    return idx >= startIdx && idx <= endIdx && !isIncomeRow(r);
+  });
+
+  const totalExpense = filteredRows.reduce((s, r) => s + r.amount, 0);
+  const top = [...filteredRows].sort((a,b) => b.amount - a.amount).slice(0, 10);
+
+  const body = document.getElementById('top10Body');
+  if (!top.length) {
+    body.innerHTML = '<tr><td colspan="5" class="top10-empty">No expenses in the selected date range.</td></tr>';
+  } else {
+    const maxAmount = top[0].amount;
+    body.innerHTML = top.map((r, i) => {
+      const share = totalExpense ? (r.amount / totalExpense * 100) : 0;
+      const cat = r.category ? r.category : 'One-time Expense';
+      return `
+        <tr>
+          <td class="top10-rank">${i + 1}</td>
+          <td>${r.title}</td>
+          <td><span style="font-size:.8rem">${cat}</span></td>
+          <td class="top10-amount">${fmtRupee(r.amount)}</td>
+          <td class="top10-bar-cell">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="top10-bar-wrap" style="flex:1"><div class="top10-bar" style="width:${(r.amount/maxAmount)*100}%"></div></div>
+              <span style="font-size:.72rem;color:var(--muted);width:45px;text-align:right">${share.toFixed(1)}%</span>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+  }
+
+  const first = formatMonth(months[0]);
+  const last = formatMonth(months[months.length - 1]);
+  document.getElementById('top10Subtitle').textContent =
+    months.length > 1 ? `${first} – ${last} · ${fmtRupee(totalExpense)} total expenses` :
+    `${first} · ${fmtRupee(totalExpense)} total expenses`;
+}
+
 /* ================================================================
    MAIN RENDER
 ================================================================ */
@@ -1241,6 +1327,7 @@ function render(n) {
   buildSummary(months);
   buildCharts(months);
   buildTable(months);
+  buildTop10Expenses(months);
 }
 
 /* ================================================================
@@ -1248,12 +1335,14 @@ function render(n) {
 ================================================================ */
 /* helpers to show/hide views */
 function showExpenseView() {
+  document.getElementById('top10Expenses').style.display = '';
   document.getElementById('summaryGrid').style.display   = '';
   document.querySelector('.charts-grid').style.display   = '';
   document.querySelector('.pivot-wrapper').style.display = '';
   document.getElementById('maintSection').style.display  = 'none';
 }
 function showMaintView() {
+  document.getElementById('top10Expenses').style.display = 'none';
   document.getElementById('summaryGrid').style.display   = 'none';
   document.querySelector('.charts-grid').style.display   = 'none';
   document.querySelector('.pivot-wrapper').style.display = 'none';
@@ -1261,7 +1350,7 @@ function showMaintView() {
 }
 
 
-function showAssociationView(){document.getElementById('summaryGrid').style.display='none';document.querySelector('.charts-grid').style.display='none';document.querySelector('.pivot-wrapper').style.display='none';document.getElementById('maintSection').style.display='none';document.querySelector('.controls').style.display='none';document.getElementById('associationSection').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
+function showAssociationView(){document.getElementById('top10Expenses').style.display='none';document.getElementById('summaryGrid').style.display='none';document.querySelector('.charts-grid').style.display='none';document.querySelector('.pivot-wrapper').style.display='none';document.getElementById('maintSection').style.display='none';document.querySelector('.controls').style.display='none';document.getElementById('associationSection').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
 function showFinancialControls(){document.querySelector('.controls').style.display='';document.getElementById('associationSection').style.display='none';}
 function setMainTab(id){document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');}
 document.getElementById('expensesTab').addEventListener('click',()=>{activeView='expenses';showFinancialControls();showExpenseView();setMainTab('expensesTab');document.getElementById('currentMonthBtn').click();});
