@@ -531,9 +531,7 @@ min-width:150px;
       <table class="top10-table">
         <thead>
           <tr>
-            <th class="top10-rank">#</th>
             <th>Description</th>
-            <th>Category</th>
             <th class="amt-col">Amount</th>
             <th class="top10-bar-cell">Share of Expenses</th>
           </tr>
@@ -1286,25 +1284,45 @@ function buildTop10Expenses(months) {
   });
 
   const totalExpense = filteredRows.reduce((s, r) => s + r.amount, 0);
-  const top = [...filteredRows].sort((a,b) => b.amount - a.amount).slice(0, 10);
+
+  // Club expenses by the Category column from the Pivot View.
+  // A populated Category is one grouped expense; a blank Category remains
+  // an individual/unique expense and is never clubbed with another blank row.
+  const grouped = new Map();
+  filteredRows.forEach(r => {
+    const category = (r.category || '').trim();
+    const key = category ? `category:${category}` : `unique:${r.sno}`;
+
+    if (!grouped.has(key)) {
+      grouped.set(key, {
+        description: category || r.title,
+        amount: 0,
+        count: 0
+      });
+    }
+
+    const g = grouped.get(key);
+    g.amount += r.amount;
+    g.count += 1;
+  });
+
+  const top = [...grouped.values()]
+    .sort((a, b) => b.amount - a.amount)
+    .slice(0, 10);
 
   const body = document.getElementById('top10Body');
   if (!top.length) {
-    body.innerHTML = '<tr><td colspan="5" class="top10-empty">No expenses in the selected date range.</td></tr>';
+    body.innerHTML = '<tr><td colspan="3" class="top10-empty">No expenses in the selected date range.</td></tr>';
   } else {
-    const maxAmount = top[0].amount;
-    body.innerHTML = top.map((r, i) => {
+    body.innerHTML = top.map((r) => {
       const share = totalExpense ? (r.amount / totalExpense * 100) : 0;
-      const cat = r.category ? r.category : 'One-time Expense';
       return `
         <tr>
-          <td class="top10-rank">${i + 1}</td>
-          <td>${r.title}</td>
-          <td><span style="font-size:.8rem">${cat}</span></td>
+          <td>${r.description}</td>
           <td class="top10-amount">${fmtRupee(r.amount)}</td>
           <td class="top10-bar-cell">
             <div style="display:flex;align-items:center;gap:8px">
-              <div class="top10-bar-wrap" style="flex:1"><div class="top10-bar" style="width:${(r.amount/maxAmount)*100}%"></div></div>
+              <div class="top10-bar-wrap" style="flex:1"><div class="top10-bar" style="width:${(r.amount/top[0].amount)*100}%"></div></div>
               <span style="font-size:.72rem;color:var(--muted);width:45px;text-align:right">${share.toFixed(1)}%</span>
             </div>
           </td>
